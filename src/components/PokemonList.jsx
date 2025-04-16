@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPokemonList, getPokemonDetails } from "../services/pokeapi";
+import { getPokemonList, getPokemonDetails } from "../services/pokeApi";
 import { addToTeam, getTeam } from "../services/jsonServer";
 
 const PokemonList = () => {
