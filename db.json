@@ -1,19 +1,130 @@
 {
-  "team": [],
-  "battles": [
+  "team": [
     {
-      "id": "cbb5",
-      "timestamp": "2025-04-17T01:24:23.443Z",
-      "player1": "squirtle",
-      "player2": "pidgeot",
-      "winner": "pidgeot"
+      "id": "ba9a",
+      "name": "ivysaur",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+      "stats": [
+        {
+          "base_stat": 60,
+          "effort": 0,
+          "stat": {
+            "name": "hp",
+            "url": "https://pokeapi.co/api/v2/stat/1/"
+          }
+        },
+        {
+          "base_stat": 62,
+          "effort": 0,
+          "stat": {
+            "name": "attack",
+            "url": "https://pokeapi.co/api/v2/stat/2/"
+          }
+        },
+        {
+          "base_stat": 63,
+          "effort": 0,
+          "stat": {
+            "name": "defense",
+            "url": "https://pokeapi.co/api/v2/stat/3/"
+          }
+        },
+        {
+          "base_stat": 80,
+          "effort": 1,
+          "stat": {
+            "name": "special-attack",
+            "url": "https://pokeapi.co/api/v2/stat/4/"
+          }
+        },
+        {
+          "base_stat": 80,
+          "effort": 1,
+          "stat": {
+            "name": "special-defense",
+            "url": "https://pokeapi.co/api/v2/stat/5/"
+          }
+        },
+        {
+          "base_stat": 60,
+          "effort": 0,
+          "stat": {
+            "name": "speed",
+            "url": "https://pokeapi.co/api/v2/stat/6/"
+          }
+        }
+      ]
     },
     {
-      "id": "87f8",
-      "timestamp": "2025-04-17T01:29:51.433Z",
-      "player1": "venusaur",
-      "player2": "charizard",
-      "winner": "charizard"
+      "id": "5ac1",
+      "name": "squirtle",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+      "stats": [
+        {
+          "base_stat": 44,
+          "effort": 0,
+          "stat": {
+            "name": "hp",
+            "url": "https://pokeapi.co/api/v2/stat/1/"
+          }
+        },
+        {
+          "base_stat": 48,
+          "effort": 0,
+          "stat": {
+            "name": "attack",
+            "url": "https://pokeapi.co/api/v2/stat/2/"
+          }
+        },
+        {
+          "base_stat": 65,
+          "effort": 1,
+          "stat": {
+            "name": "defense",
+            "url": "https://pokeapi.co/api/v2/stat/3/"
+          }
+        },
+        {
+          "base_stat": 50,
+          "effort": 0,
+          "stat": {
+            "name": "special-attack",
+            "url": "https://pokeapi.co/api/v2/stat/4/"
+          }
+        },
+        {
+          "base_stat": 64,
+          "effort": 0,
+          "stat": {
+            "name": "special-defense",
+            "url": "https://pokeapi.co/api/v2/stat/5/"
+          }
+        },
+        {
+          "base_stat": 43,
+          "effort": 0,
+          "stat": {
+            "name": "speed",
+            "url": "https://pokeapi.co/api/v2/stat/6/"
+          }
+        }
+      ]
+    }
+  ],
+  "battles": [
+    {
+      "id": "2a1f",
+      "timestamp": "2025-04-17T02:13:56.871Z",
+      "player1": "squirtle",
+      "player2": "ivysaur",
+      "winner": "ivysaur"
+    },
+    {
+      "id": "ed40",
+      "timestamp": "2025-04-17T02:13:59.808Z",
+      "player1": "ivysaur",
+      "player2": "squirtle",
+      "winner": "ivysaur"
     }
   ]
 }
