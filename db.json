@@ -2,151 +2,18 @@
   "team": [],
   "battles": [
     {
-      "id": "9f0a",
-      "timestamp": "2025-04-16T23:24:57.572Z",
+      "id": "cbb5",
+      "timestamp": "2025-04-17T01:24:23.443Z",
       "player1": "squirtle",
-      "player2": "caterpie",
-      "winner": "caterpie"
-    },
-    {
-      "id": "ca2c",
-      "timestamp": "2025-04-16T23:25:05.835Z",
-      "player1": "squirtle",
-      "player2": "caterpie",
-      "winner": "caterpie"
-    },
-    {
-      "id": "e14b",
-      "timestamp": "2025-04-16T23:25:12.659Z",
-      "player1": "squirtle",
-      "player2": "caterpie",
-      "winner": "caterpie"
-    },
-    {
-      "id": "14b3",
-      "timestamp": "2025-04-16T23:26:42.793Z",
-      "player1": "charizard",
-      "player2": "metapod",
-      "winner": "charizard"
-    },
-    {
-      "id": "4a09",
-      "timestamp": "2025-04-16T23:31:04.367Z",
-      "player1": "butterfree",
-      "player2": "charizard",
-      "winner": "charizard"
-    },
-    {
-      "id": "153c",
-      "timestamp": "2025-04-16T23:31:08.399Z",
-      "player1": "rattata",
-      "player2": "charizard",
-      "winner": "charizard"
-    },
-    {
-      "id": "b699",
-      "timestamp": "2025-04-16T23:31:11.767Z",
-      "player1": "caterpie",
-      "player2": "rattata",
-      "winner": "rattata"
-    },
-    {
-      "id": "d83d",
-      "timestamp": "2025-04-16T23:36:41.894Z",
-      "player1": "charizard",
-      "player2": "butterfree",
-      "winner": "charizard"
-    },
-    {
-      "id": "3abb",
-      "timestamp": "2025-04-16T23:36:44.854Z",
-      "player1": "rattata",
-      "player2": "bulbasaur",
-      "winner": "rattata"
-    },
-    {
-      "id": "ae6e",
-      "timestamp": "2025-04-16T23:38:43.191Z",
-      "player1": "ivysaur",
-      "player2": "squirtle",
-      "winner": "ivysaur"
-    },
-    {
-      "id": "edb5",
-      "timestamp": "2025-04-16T23:38:47.583Z",
-      "player1": "ivysaur",
-      "player2": "squirtle",
-      "winner": "ivysaur"
-    },
-    {
-      "id": "7a1f",
-      "timestamp": "2025-04-16T23:41:15.614Z",
-      "player1": "charizard",
       "player2": "pidgeot",
       "winner": "pidgeot"
     },
     {
-      "id": "8268",
-      "timestamp": "2025-04-16T23:41:25.125Z",
-      "player1": "pidgeot",
+      "id": "87f8",
+      "timestamp": "2025-04-17T01:29:51.433Z",
+      "player1": "venusaur",
       "player2": "charizard",
-      "winner": "pidgeot"
-    },
-    {
-      "id": "7de0",
-      "timestamp": "2025-04-16T23:43:08.325Z",
-      "player1": "raticate",
-      "player2": "wartortle",
-      "winner": "raticate"
-    },
-    {
-      "id": "2118",
-      "timestamp": "2025-04-16T23:45:29.357Z",
-      "player1": "raticate",
-      "player2": "squirtle",
-      "winner": "raticate"
-    },
-    {
-      "id": "b858",
-      "timestamp": "2025-04-16T23:45:32.117Z",
-      "player1": "squirtle",
-      "player2": "ivysaur",
-      "winner": "ivysaur"
-    },
-    {
-      "id": "c3b4",
-      "timestamp": "2025-04-16T23:45:35.197Z",
-      "player1": "pidgeot",
-      "player2": "wartortle",
-      "winner": "pidgeot"
-    },
-    {
-      "id": "bed5",
-      "timestamp": "2025-04-16T23:46:05.700Z",
-      "player1": "raticate",
-      "player2": "pidgeot",
-      "winner": "pidgeot"
-    },
-    {
-      "id": "602d",
-      "timestamp": "2025-04-16T23:49:57.145Z",
-      "player1": "squirtle",
-      "player2": "ivysaur",
-      "winner": "ivysaur"
-    },
-    {
-      "id": "e2ad",
-      "timestamp": "2025-04-16T23:49:59.858Z",
-      "player1": "pidgeot",
-      "player2": "raticate",
-      "winner": "pidgeot"
-    },
-    {
-      "id": "b431",
-      "timestamp": "2025-04-16T23:50:02.769Z",
-      "player1": "wartortle",
-      "player2": "ivysaur",
-      "winner": "ivysaur"
+      "winner": "charizard"
     }
   ]
 }

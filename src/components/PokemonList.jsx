@@ -1,3 +1,4 @@
+// src/components/PokemonList.jsx
 import { useEffect, useState } from "react";
 import { getPokemonList, getPokemonDetails } from "../services/pokeApi";
 import { addToTeam, getTeam } from "../services/jsonServer";
@@ -34,12 +35,14 @@ const PokemonList = () => {
       alert("This Pokémon is already in your team!");
       return;
     }
+
+    // Let json-server assign the ID
     await addToTeam({
-      id: pokemon.id,
       name: pokemon.name,
       sprite: pokemon.sprites.front_default,
       stats: pokemon.stats,
     });
+
     fetchTeam();
   };
 
@@ -55,7 +58,6 @@ const PokemonList = () => {
             <img src={pokemon.sprites.front_default} alt={pokemon.name} />
             <h2 className="capitalize font-semibold text-lg">{pokemon.name}</h2>
 
-            {/* Display stats */}
             <div className="mt-2 text-sm">
               <p><strong>HP:</strong> {pokemon.stats[0].base_stat}</p>
               <p><strong>Attack:</strong> {pokemon.stats[1].base_stat}</p>

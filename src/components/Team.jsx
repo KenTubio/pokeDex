@@ -1,3 +1,4 @@
+// src/components/Team.jsx
 import { useEffect, useState } from "react";
 import { getTeam, removeFromTeam } from "../services/jsonServer";
 
@@ -9,13 +10,21 @@ const Team = () => {
   }, []);
 
   const fetchTeam = async () => {
-    const res = await getTeam();
-    setTeam(res.data);
+    try {
+      const res = await getTeam();
+      setTeam(res.data);
+    } catch (error) {
+      console.error("Error fetching team:", error);
+    }
   };
 
   const handleRemove = async (id) => {
-    await removeFromTeam(id);
-    fetchTeam();
+    try {
+      await removeFromTeam(id);
+      setTeam((prevTeam) => prevTeam.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error("Error removing Pokémon:", error);
+    }
   };
 
   return (
