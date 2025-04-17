@@ -1,5 +1,5 @@
 import axios from "axios";
-const DB_URL = "https://poke-data.onrender.com/";
+const DB_URL = "https://poke-data.onrender.com";
 
 // Fetch the team from the server
 export const getTeam = () => axios.get(`${DB_URL}/team`);
