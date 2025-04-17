@@ -2,7 +2,7 @@ const { get } = require('axios');
 
 exports.handler = async (event, context) => {
   try {
-    const response = await get('https://your-json-server-url/db.json');
+    const response = await get('https://pokeymoen.netlify.app/db.json');
     return {
       statusCode: 200,
       body: JSON.stringify(response.data)
