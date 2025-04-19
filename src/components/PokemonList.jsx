@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { getPokemonList, getPokemonDetails } from "../services/pokeApi";
 import { addToTeam, getTeam } from "../services/jsonServer";
 import { IoIosRefresh } from "react-icons/io";
-
-
+import axios from "axios";
 
 const PokemonList = ({ selectedType }) => {
   const [pokemonList, setPokemonList] = useState([]);
   const [team, setTeam] = useState([]);
-  const [addingPokemon, setAddingPokemon] = useState(false); // Track if any Pokémon is being added
+  const [addingPokemon, setAddingPokemon] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(""); // 🔍 Add search term state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   useEffect(() => {
     fetchPokemon();
@@ -20,31 +20,36 @@ const PokemonList = ({ selectedType }) => {
   const fetchPokemon = async () => {
     setLoading(true);
     try {
-      const batchSize = 200;  // Define the batch size (can be adjusted)
-      const totalPokemons = 1000; // Total number of Pokémon to fetch
-      const batches = Math.ceil(totalPokemons / batchSize); // Number of batches needed
+      const batchSize = 100;
+      const totalPokemons = 1000;
+      const batches = Math.ceil(totalPokemons / batchSize);
 
       const allPokemons = [];
 
-      // Fetch Pokémon in parallel in batches
       const requests = [];
       for (let i = 0; i < batches; i++) {
         const offset = i * batchSize;
-        requests.push(getPokemonList(batchSize, offset)); // Request each batch
+        requests.push(getPokemonList(batchSize, offset));
       }
 
-      // Wait for all batch requests to complete in parallel
       const responses = await Promise.all(requests);
 
-      // Process each batch of Pokémon data
       for (const response of responses) {
         const details = await Promise.all(
-          response.data.results.map((p) => getPokemonDetails(p.name))
+          response.data.results.map(async (p) => {
+            const pokemonRes = await getPokemonDetails(p.name);
+            const speciesRes = await axios.get(pokemonRes.data.species.url);
+            return {
+              ...pokemonRes.data,
+              gen: speciesRes.data.generation.name.replace("generation-", "Gen ").toUpperCase(),
+              growth_rate: speciesRes.data.growth_rate.name.replace("-", " "),
+            };
+          })
         );
-        allPokemons.push(...details.map((res) => res.data)); // Add each batch to the total list
+        allPokemons.push(...details);
       }
 
-      setPokemonList(allPokemons); // Set the final Pokémon list
+      setPokemonList(allPokemons);
     } catch (err) {
       console.error("Failed to load Pokémon:", err);
     } finally {
@@ -59,11 +64,10 @@ const PokemonList = ({ selectedType }) => {
 
   const handleAddToTeam = async (pokemon) => {
     if (team.length >= 6) return alert("Team is full (max 6 Pokémon)");
-
     const alreadyInTeam = team.find((p) => p.name === pokemon.name);
     if (alreadyInTeam) return alert("This Pokémon is already in your team!");
 
-    setAddingPokemon(true); // Set the state to indicate a Pokémon is being added
+    setAddingPokemon(true);
 
     try {
       const res = await addToTeam({
@@ -76,11 +80,10 @@ const PokemonList = ({ selectedType }) => {
       console.error("Failed to add Pokémon:", error);
       alert("Something went wrong!");
     } finally {
-      setAddingPokemon(false); // Reset the state after the Pokémon is added
+      setAddingPokemon(false);
     }
   };
 
-  // 🔍 Combine search and type filtering
   const filteredList = pokemonList
     .filter((p) =>
       selectedType === "all"
@@ -93,16 +96,14 @@ const PokemonList = ({ selectedType }) => {
     <div className="h-screen overflow-hidden bg-[#0f0f0f] text-white flex flex-col">
       <div className="flex items-center justify-between px-4 pt-4">
         <h1 className="text-2xl font-bold mb-2 capitalize">Pokémon List</h1>
-        {/* Refresh Button */}
         <button
-          onClick={fetchPokemon} // Trigger refresh when clicked
+          onClick={fetchPokemon}
           className="px-4 py-2 bg-slate-600 text-2xl text-white rounded-md hover:bg-blue-700 transition duration-200"
         >
           <IoIosRefresh />
         </button>
       </div>
 
-      {/* 🔍 Search Box */}
       <div className="p-4 mb-4">
         <input
           type="text"
@@ -130,70 +131,137 @@ const PokemonList = ({ selectedType }) => {
               return (
                 <div
                   key={pokemon.id}
-                  className={`bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 border border-gray-600 rounded-xl p-4 shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 ${
-                    alreadyInTeam ? "opacity-50" : ""
-                  }`}
+                  onClick={() => setSelectedPokemon(pokemon)}
+                  className="cursor-pointer relative bg-gradient-to-b from-orange-500 to-red-600 rounded-3xl p-4 shadow-lg hover:scale-105 transition-all duration-300 text-white flex flex-col items-center justify-between"
                 >
-                  <img
-                    src={pokemon.sprites.front_default}
-                    alt={pokemon.name}
-                    className="mx-auto animate-bounce w-40"
-                  />
-                  <h2 className="capitalize font-semibold text-lg text-center mt-2">
-                    {pokemon.name}
-                  </h2>
+                  <div className="absolute top-2 left-4 text-white text-xl font-bold drop-shadow-md">
+                    {pokemon.base_experience * 10} CP
+                  </div>
 
-                  <div className="mt-2 text-sm text-center">
+                  <img
+                    src={pokemon.sprites.other["official-artwork"].front_default}
+                    alt={pokemon.name}
+                    className="w-32 h-32 object-contain z-10 drop-shadow-md"
+                  />
+
+                  <h2 className="capitalize text-2xl font-bold mt-4">{pokemon.name}</h2>
+
+                  <div className="flex gap-2 mt-2">
                     {pokemon.types.map((t) => (
                       <span
                         key={t.slot}
-                        className="bg-gray-600 px-2 py-0.5 rounded-full text-xs mx-1"
+                        className="bg-white text-black px-3 py-0.5 rounded-full text-xs font-semibold"
                       >
                         {t.type.name}
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-2 text-sm">
-                    <p>
-                      <strong>HP:</strong> {pokemon.stats[0].base_stat}
-                    </p>
-                    <p>
-                      <strong>Attack:</strong> {pokemon.stats[1].base_stat}
-                    </p>
-                    <p>
-                      <strong>Defense:</strong> {pokemon.stats[2].base_stat}
-                    </p>
-                    <p>
-                      <strong>Speed:</strong> {pokemon.stats[5].base_stat}
-                    </p>
+                  <div className="flex justify-between text-sm w-full mt-4 px-2">
+                    <div className="text-center">
+                      <p className="font-bold">{(pokemon.weight / 10).toFixed(1)} KG</p>
+                      <p className="opacity-70">Weight</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-bold">{(pokemon.height / 10).toFixed(2)} M</p>
+                      <p className="opacity-70">Height</p>
+                    </div>
                   </div>
 
-                    <button
-                    className={`mt-3 px-3 py-1 rounded text-white w-full font-semibold transition duration-300 ease-in-out
-                      ${
-                        addingPokemon || alreadyInTeam
-                          ? "bg-gray-500 cursor-not-allowed"
-                          : "bg-gradient-to-b from-green-300 via-teal-400 to-teal-600 hover:brightness-110 shadow-md"
-                      }`}
-                    onClick={() => handleAddToTeam(pokemon)}
+                  <div className="flex justify-between text-sm w-full mt-4 px-2">
+                    <div className="text-center">
+                      <p className="font-bold">{pokemon.gen}</p>
+                      <p className="opacity-70 text-xs">Generation</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-bold capitalize">{pokemon.growth_rate}</p>
+                      <p className="opacity-70 text-xs">Growth Rate</p>
+                    </div>
+                  </div>
+
+                  <button
+                    className={`mt-4 w-full text-sm font-semibold py-2 rounded-xl ${
+                      addingPokemon || alreadyInTeam
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-green-400 hover:bg-green-500"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToTeam(pokemon);
+                    }}
                     disabled={addingPokemon || alreadyInTeam}
                   >
                     {alreadyInTeam
                       ? "In Team"
                       : addingPokemon
                       ? "Adding..."
-                      : "Add to Team"}
+                      : `Add to Team`}
                   </button>
-
                 </div>
-
-
               );
             })}
           </div>
         )}
       </div>
+
+      {selectedPokemon && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center transition-all duration-300"
+          onClick={() => setSelectedPokemon(null)}
+        >
+          <div
+            className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl text-white p-6 rounded-3xl w-full max-w-md relative transition-all duration-300 hover:scale-[1.01]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedPokemon(null)}
+              className="absolute top-3 right-4 text-3xl text-white/60 hover:text-white/90 transition duration-200"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-3xl font-bold capitalize mb-4 text-center tracking-wide">
+              {selectedPokemon.name}
+            </h2>
+
+            <img
+              src={selectedPokemon.sprites.other["official-artwork"].front_default}
+              alt={selectedPokemon.name}
+              className="w-40 h-40 mx-auto mb-6 drop-shadow-xl"
+            />
+
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-2 underline">Abilities</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-white/90">
+                {selectedPokemon.abilities.map((a, i) => (
+                  <li key={i}>{a.ability.name}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-2 underline">Stats</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-white/90">
+                {selectedPokemon.stats.map((s, i) => (
+                  <li key={i}>
+                    {s.stat.name}: {s.base_stat}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 underline">Top Moves</h3>
+              <ul className="list-disc list-inside space-y-1 max-h-40 overflow-y-auto text-sm text-white/90 pr-2">
+                {selectedPokemon.moves.slice(0, 10).map((m, i) => (
+                  <li key={i}>{m.move.name}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
