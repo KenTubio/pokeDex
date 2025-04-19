@@ -1,24 +1,27 @@
-// src/components/BackgroundMusic.jsx
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const BackgroundMusic = () => {
   const location = useLocation();
   const audioRef = useRef(null);
-  const [currentTrack, setCurrentTrack] = useState("dashboard");
+  const [currentTrack, setCurrentTrack] = useState("/");
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const dashboardMusic = "/audio/pokemon-bg.mp3";
   const battleMusic = "/audio/battle-bg.mp3";
 
-
   const VOLUME_LEVELS = {
-    dashboard: 0.5, 
-    battle: 1.0   
+    dashboard: 0.5,
+    battle: 1.0,
+  };
+
+  const handleUserInteraction = () => {
+    setHasInteracted(true);
   };
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !hasInteracted) return;
 
     const isBattle = location.pathname === "/battle";
 
@@ -27,16 +30,18 @@ const BackgroundMusic = () => {
       audio.volume = VOLUME_LEVELS.battle;
       setCurrentTrack("battle");
       audio.play().catch(console.warn);
-    } else if (!isBattle && currentTrack !== "dashboard") {
+    } else if (!isBattle && currentTrack !== "/") {
       audio.src = dashboardMusic;
       audio.volume = VOLUME_LEVELS.dashboard;
-      setCurrentTrack("dashboard");
+      setCurrentTrack("/");
       audio.play().catch(console.warn);
     }
-  }, [location.pathname, currentTrack]);
+  }, [location.pathname, currentTrack, hasInteracted]);
 
-  // Initial audio setup
+  // Trigger music play on first interaction
   useEffect(() => {
+    if (!hasInteracted) return;
+
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -46,6 +51,18 @@ const BackgroundMusic = () => {
     audio.play().catch((e) => {
       console.warn("Music autoplay blocked:", e);
     });
+  }, [hasInteracted]);
+
+  // Set up event listener for user interaction
+  useEffect(() => {
+    window.addEventListener('click', handleUserInteraction, { once: true });
+    window.addEventListener('keydown', handleUserInteraction, { once: true });
+    window.addEventListener('scroll', handleUserInteraction, { once: true });
+    return () => {
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('keydown', handleUserInteraction);
+      window.removeEventListener('scroll', handleUserInteraction);
+    };
   }, []);
 
   return <audio ref={audioRef} />;

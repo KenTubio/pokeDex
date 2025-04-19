@@ -100,7 +100,7 @@ const Header = () => {
             <div className="flex items-start space-x-4 mb-6 relative max-sm:flex-col max-sm:justify-center">
                 <img
                     src="./src/assets/images/profile.jpg"
-                    alt="Fishing Frenzy"
+                    alt="pokemon"
                     className="w-60 max-lg:w-40 max-sm:self-center max-lg:h-40 absolute max-sm:static -top-12 left-15 h-52 rounded-[3rem] object-cover object-center border-slate-500 border-4"
                 />
                 <div className="w-full flex  max-sm:flex-col-reverse">
