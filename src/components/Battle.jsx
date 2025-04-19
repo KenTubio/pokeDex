@@ -129,7 +129,7 @@ const Battle = () => {
     }
 
     if (newScore.ai >= 6 || currentIndex + 1 >= team.length) {
-      await endBattle("AI");
+      await endBattle("Enemy");
       return;
     }
 

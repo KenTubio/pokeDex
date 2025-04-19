@@ -132,9 +132,9 @@ const Header = () => {
                         <Link
                             to="/battle"
                             className={`text-center relative inline-block text-white font-bold text-lg px-8 py-3 rounded-md 
-                            bg-gradient-to-r from-blue-700 to-blue-500 shadow-[0_0_10px_rgba(0,123,255,0.8)]
-                            border border-blue-300 
-                            hover:scale-105 hover:shadow-[0_0_20px_rgba(0,123,255,1)] 
+                            bg-gradient-to-b from-green-300 via-teal-400 to-teal-600 shadow-[0_0_10px_rgba(32,178,170,0.8)]
+                            border border-teal-300 
+                            hover:scale-105 hover:shadow-[0_0_20px_rgba(32,178,170,1)] 
                             transition-transform duration-300 ease-in-out
                             before:absolute before:inset-0 before:rounded-md before:border-2 before:border-white/20 before:pointer-events-none`}
                         >
@@ -142,6 +142,7 @@ const Header = () => {
                             Battle On!
                         </Link>
                     </nav>
+
                 </div>
 
 

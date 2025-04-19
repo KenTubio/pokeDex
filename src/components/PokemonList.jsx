@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getPokemonList, getPokemonDetails } from "../services/pokeApi";
 import { addToTeam, getTeam } from "../services/jsonServer";
+import { IoIosRefresh } from "react-icons/io";
+
+
 
 const PokemonList = ({ selectedType }) => {
   const [pokemonList, setPokemonList] = useState([]);
@@ -93,9 +96,9 @@ const PokemonList = ({ selectedType }) => {
         {/* Refresh Button */}
         <button
           onClick={fetchPokemon} // Trigger refresh when clicked
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
+          className="px-4 py-2 bg-slate-600 text-2xl text-white rounded-md hover:bg-blue-700 transition duration-200"
         >
-          Refresh
+          <IoIosRefresh />
         </button>
       </div>
 
@@ -166,14 +169,15 @@ const PokemonList = ({ selectedType }) => {
                     </p>
                   </div>
 
-                  <button
-                    className={`mt-3 px-3 py-1 rounded text-white w-full ${
-                      addingPokemon || alreadyInTeam
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-green-600 hover:bg-green-700"
-                    }`}
+                    <button
+                    className={`mt-3 px-3 py-1 rounded text-white w-full font-semibold transition duration-300 ease-in-out
+                      ${
+                        addingPokemon || alreadyInTeam
+                          ? "bg-gray-500 cursor-not-allowed"
+                          : "bg-gradient-to-b from-green-300 via-teal-400 to-teal-600 hover:brightness-110 shadow-md"
+                      }`}
                     onClick={() => handleAddToTeam(pokemon)}
-                    disabled={addingPokemon || alreadyInTeam} // Disable if adding is in progress or already in team
+                    disabled={addingPokemon || alreadyInTeam}
                   >
                     {alreadyInTeam
                       ? "In Team"
@@ -181,6 +185,7 @@ const PokemonList = ({ selectedType }) => {
                       ? "Adding..."
                       : "Add to Team"}
                   </button>
+
                 </div>
 
 

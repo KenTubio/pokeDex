@@ -40,10 +40,10 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
 
         {/* Navigation */}
         <nav className="mb-6 space-y-2 mt-7">
-        <span className="flex items-center gap-2 text-xl mb-4">
-          <GrHomeRounded /> 
-          <h1 className=" font-bold"> Dashboard</h1>
-        </span>
+          <span className="flex items-center gap-2 text-xl mb-4">
+            <GrHomeRounded /> 
+            <h1 className=" font-bold"> Dashboard</h1>
+          </span>
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
@@ -61,6 +61,17 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
             }`}
           >
             My Team
+          </Link>
+
+          {/* New Instructions Link */}
+          <Link
+            to="/instructions"
+            onClick={() => setIsOpen(false)}
+            className={`block px-3 py-2 rounded ${
+              location.pathname === "/instructions" ? "bg-blue-600" : "hover:bg-gray-700"
+            }`}
+          >
+            Instructions
           </Link>
         </nav>
 
