@@ -69,7 +69,7 @@ const Header = () => {
     return (
         <div className="bg-[#0f0f0f] text-white font-sans relative">
             <header className="fixed left-0 right-0 top-0 backdrop-blur-xs z-50 flex justify-between items-center px-5 max-sm:p-3 max-sm:justify-center">
-                <img className="w-40 max-sm:hidden" src="./src/assets/images/poke-logo.png" alt="" />
+                <img className="w-40 max-sm:hidden" src="/images/poke-logo.png" alt="" />
                 <figure className="flex gap-2 text-xl max-sm:text-sm">
                     <a className="bg-slate-600 hover:scale-110 transition hover:bg-slate-400 text-white p-2 rounded-full" href="https://x.com/pokemon" target="_blank">
                         <FaXTwitter />
@@ -93,13 +93,13 @@ const Header = () => {
             {/* Header Banner */}
             <div
                 className="w-full h-96 max-lg:h-52 bg-cover bg-center bg-no-repeat rounded-lg mb-4"
-                style={{ backgroundImage: 'url("./src/assets/images/banner.gif")' }}
+                style={{ backgroundImage: 'url("/images/banner.gif")' }}
             />
 
             {/* Profile Section */}
             <div className="flex items-start space-x-4 mb-6 relative max-sm:flex-col max-sm:justify-center">
                 <img
-                    src="./src/assets/images/profile.jpg"
+                    src="/images/profile.jpg"
                     alt="pokemon"
                     className="w-60 max-lg:w-40 max-sm:self-center max-lg:h-40 absolute max-sm:static -top-12 left-15 h-52 rounded-[3rem] object-cover object-center border-slate-500 border-4"
                 />
@@ -138,7 +138,7 @@ const Header = () => {
                             transition-transform duration-300 ease-in-out
                             before:absolute before:inset-0 before:rounded-md before:border-2 before:border-white/20 before:pointer-events-none`}
                         >
-                            <img className="w-24" src="./src/assets/images/poke-logo.png" alt="" />
+                            <img className="w-24" src="/images/poke-logo.png" alt="" />
                             Battle On!
                         </Link>
                     </nav>
