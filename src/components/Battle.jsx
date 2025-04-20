@@ -20,6 +20,8 @@ const Battle = () => {
   const [battleEnded, setBattleEnded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState("");
+  const [isBattleReady, setIsBattleReady] = useState(false);
+
 
   useEffect(() => {
     const initialize = async () => {
@@ -59,8 +61,13 @@ const Battle = () => {
       sprite: res.data.sprites.front_default,
       stats: res.data.stats,
     });
+  
+    // Set battle readiness after both Pokémon are loaded
+    if (team[currentIndex] && res.data) {
+      setIsBattleReady(true); // Enable the start button
+    }
   };
-
+  
   const fetchBattleHistory = async () => {
     const res = await getBattles();
     setBattleHistory(res.data);
