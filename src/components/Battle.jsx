@@ -18,6 +18,7 @@ const Battle = () => {
   const [battleHistory, setBattleHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const [battleEnded, setBattleEnded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState("");
 
   useEffect(() => {
@@ -85,56 +86,62 @@ const Battle = () => {
 
   const handleBattle = async () => {
     if (!aiPokemon || battleEnded || currentIndex >= team.length) return;
-
+  
+    setIsLoading(true); // Start loading
+  
     const userPokemon = team[currentIndex];
     const ai = aiPokemon;
-
+  
     const result = simulateBattle(userPokemon, ai);
-
+  
     const userData = pokemonStats[userPokemon.id];
     const userStats = userData?.stats;
     const aiStats = ai.stats;
-
+  
     const explanation = `
       ${userPokemon.name} (HP: ${userStats[0].base_stat}, ATK: ${userStats[1].base_stat}, DEF: ${userStats[2].base_stat}) 
       vs 
       ${ai.name} (HP: ${aiStats[0].base_stat}, ATK: ${aiStats[1].base_stat}, DEF: ${aiStats[2].base_stat}) — 
       Winner: ${result}
     `;
-
+  
     const logEntry = {
       user: userPokemon.name,
       ai: ai.name,
       result: result,
       explanation,
     };
-
+  
     const updatedLog = [...battleLog, logEntry];
     setBattleLog(updatedLog);
-
+  
     let newScore = { ...score };
-
+  
     if (result === userPokemon.name) {
       newScore.you += 1;
     } else if (result === ai.name) {
       newScore.ai += 1;
       setCurrentIndex((prev) => prev + 1);
     }
-
+  
     setScore(newScore);
-
+  
     if (newScore.you >= 6) {
       await endBattle("You");
+      setIsLoading(false);
       return;
     }
-
+  
     if (newScore.ai >= 6 || currentIndex + 1 >= team.length) {
       await endBattle("Enemy");
+      setIsLoading(false);
       return;
     }
-
+  
     await generateAIPokemon();
+    setIsLoading(false); // Stop loading
   };
+  
 
   const handleClearHistory = async () => {
     await clearBattles();
@@ -247,11 +254,42 @@ const Battle = () => {
         ) : (
           <button
             onClick={handleBattle}
-            className="bg-blue-600 px-6 py-2 rounded hover:bg-blue-700"
-            disabled={currentIndex >= team.length}
+            className={`px-6 py-2 rounded transition-all duration-200 ${
+              isLoading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+            disabled={isLoading || currentIndex >= team.length}
           >
-            Start!
+            {isLoading ? (
+              <span className="flex items-center justify-center space-x-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  ></path>
+                </svg>
+                <span>Fighting ...</span>
+              </span>
+            ) : (
+              "Start!"
+            )}
           </button>
+
         )}
         <p className="mt-2 text-sm text-gray-400">
           You: {score.you} | Enemy: {score.ai}
