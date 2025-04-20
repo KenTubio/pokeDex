@@ -20,7 +20,7 @@ const PokemonList = ({ selectedType }) => {
   const fetchPokemon = async () => {
     setLoading(true);
     try {
-      const batchSize = 100;
+      const batchSize = 50;
       const totalPokemons = 1000;
       const batches = Math.ceil(totalPokemons / batchSize);
 
@@ -124,7 +124,7 @@ const PokemonList = ({ selectedType }) => {
             No Pokémon found.
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4">
             {filteredList.map((pokemon) => {
               const alreadyInTeam = team.find((p) => p.name === pokemon.name);
 
