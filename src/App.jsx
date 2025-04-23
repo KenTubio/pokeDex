@@ -22,7 +22,7 @@ const App = () => {
             <Route path="/" element={<PokemonList selectedType={selectedType} />} />
             <Route path="/team" element={<Team />} />
             <Route path="/battle" element={<Battle />} />
-            <Route path="/instructions" element={<Instructions />} /> {/* Add Instructions route */}
+            <Route path="/instructions" element={<Instructions />} />
           </Routes>
         </main>
       </div>

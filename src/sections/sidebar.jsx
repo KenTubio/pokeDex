@@ -15,7 +15,7 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
 
   return (
     <>
-      {/* Toggle Button (Only shows menu icon when sidebar is closed) */}
+     
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -25,20 +25,20 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
         </button>
       )}
 
-      {/* Sidebar */}
+    
       <aside
         className={`fixed top-0 left-0 max-sm:h-screen max-sm:overflow-y-auto w-64 bg-[#0f0f0f] text-white p-4 border-r border-gray-700 z-40 transition-transform duration-300 ease-in-out 
         ${isOpen ? "translate-x-0 z-50" : "-translate-x-full"} 
         md:static md:translate-x-0`}
       >
-        {/* Inside close button (only on mobile) */}
+       
         <div className="absolute right-3 md:hidden mb-4">
           <button onClick={() => setIsOpen(false)} className="text-white">
             <X />
           </button>
         </div>
 
-        {/* Navigation */}
+       
         <nav className="mb-6 space-y-2 mt-7">
           <span className="flex items-center gap-2 text-xl mb-4">
             <GrHomeRounded /> 
@@ -63,7 +63,7 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
             My Team
           </Link>
 
-          {/* New Instructions Link */}
+         
           <Link
             to="/instructions"
             onClick={() => setIsOpen(false)}
@@ -75,7 +75,7 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
           </Link>
         </nav>
 
-        {/* Type Filters */}
+      
         <span className="flex items-center gap-2 text-xl mb-4 mt-10">
           <CgPokemon />
           <h1 className=" font-bold"> Types</h1>
@@ -86,7 +86,7 @@ const Sidebar = ({ selectedType, setSelectedType }) => {
               key={type}
               onClick={() => {
                 setSelectedType(type);
-                setIsOpen(false); // Close sidebar on selection (mobile)
+                setIsOpen(false);
               }}
               className={`cursor-pointer px-3 py-1 rounded capitalize ${
                 selectedType === type

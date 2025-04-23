@@ -62,9 +62,9 @@ const Battle = () => {
       stats: res.data.stats,
     });
   
-    // Set battle readiness after both Pokémon are loaded
+   
     if (team[currentIndex] && res.data) {
-      setIsBattleReady(true); // Enable the start button
+      setIsBattleReady(true); 
     }
   };
   
@@ -94,7 +94,7 @@ const Battle = () => {
   const handleBattle = async () => {
     if (!aiPokemon || battleEnded || currentIndex >= team.length) return;
   
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
   
     const userPokemon = team[currentIndex];
     const ai = aiPokemon;
@@ -146,7 +146,7 @@ const Battle = () => {
     }
   
     await generateAIPokemon();
-    setIsLoading(false); // Stop loading
+    setIsLoading(false); 
   };
   
 
@@ -176,7 +176,7 @@ const Battle = () => {
 
   return (
     <div id="battle" className="bg-[#0f0f0f] min-h-screen text-white p-6">
-  {/* Your Team Section */}
+
   <div className="mb-6">
     <h2 className="text-2xl font-bold mb-4">Your Team</h2>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -201,14 +201,14 @@ const Battle = () => {
     </p>
   </div>
 
-  {/* Battle Arena Section */}
+ 
   <div className="grid grid-cols-2 gap-6 items-center max-md:grid-cols-1">
     {/* Battle Arena */}
     <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 p-6 rounded-xl shadow-xl">
       <h1 className="text-xl font-bold text-center mb-4">Battle Arena</h1>
       <div className="flex justify-around items-center space-x-6">
 
-        {/* Player Pokémon (User) */}
+        {/* Pokémon (User) */}
         <div className="bg-gray-900 h-52 rounded-xl flex items-center justify-center border border-gray-700 w-40">
           {team[currentIndex] && pokemonStats[team[currentIndex].id] ? (
             <div className="text-center">
@@ -226,7 +226,7 @@ const Battle = () => {
           )}
         </div>
 
-        {/* AI Pokémon */}
+        {/* kalaban */}
         <div className="bg-gray-900 h-52 rounded-xl flex items-center justify-center border border-gray-700 w-40">
           {aiPokemon ? (
             <div className="text-center">
@@ -249,7 +249,7 @@ const Battle = () => {
 
       </div>
 
-      {/* Battle Controls */}
+      {/* Controls to  */}
       <div className="text-center mt-4">
         {battleEnded ? (
           <button
@@ -290,7 +290,7 @@ const Battle = () => {
                     d="M4 12a8 8 0 018-8v8z"
                   ></path>
                 </svg>
-                <span>Fighting ...</span>
+                <span>Next opponent..</span>
               </span>
             ) : (
               "Start!"
@@ -309,7 +309,7 @@ const Battle = () => {
       </div>
     </div>
 
-    {/* Battle Log */}
+    {/* Battle area to */}
     <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 p-6 rounded-xl shadow-xl h-full">
       <h3 className="font-bold mb-2 text-lg">Battle Log</h3>
       <div className="bg-gray-900 rounded-lg p-3 shadow-inner max-h-60 overflow-y-auto text-sm border border-gray-700">

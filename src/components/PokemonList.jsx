@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getPokemonList, getPokemonDetails } from "../services/pokeApi";
 import { addToTeam, getTeam } from "../services/jsonServer";
 import { IoIosRefresh } from "react-icons/io";
 import axios from "axios";
+import debounce from "lodash/debounce";
 
-const LIMIT = 50;
+const LIMIT = 150;
 
 const PokemonList = ({ selectedType }) => {
   const [pokemonList, setPokemonList] = useState([]);
@@ -18,17 +19,31 @@ const PokemonList = ({ selectedType }) => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    fetchPokemon(); // initial load
     fetchTeam();
   }, []);
 
-  const fetchPokemon = async () => {
-    if (loadingMore || !hasMore) return;
+  // Reset on filter change
+  useEffect(() => {
+    setPokemonList([]);
+    setOffset(0);
+    setHasMore(true);
+    setLoading(true);
+    fetchPokemon(true);
+  }, [selectedType, searchTerm]);
 
-    setLoadingMore(true);
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchTerm(value);
+    }, 300),
+    []
+  );
+
+  const fetchPokemon = async (isNewQuery = false) => {
+    if ((loadingMore || !hasMore) && !isNewQuery) return;
+    if (!isNewQuery) setLoadingMore(true);
 
     try {
-      const response = await getPokemonList(LIMIT, offset);
+      const response = await getPokemonList(LIMIT, isNewQuery ? 0 : offset);
       const details = await Promise.all(
         response.data.results.map(async (p) => {
           const pokemonRes = await getPokemonDetails(p.name);
@@ -43,11 +58,15 @@ const PokemonList = ({ selectedType }) => {
         })
       );
 
-      setPokemonList((prev) => [...prev, ...details]);
-      setOffset((prevOffset) => prevOffset + LIMIT);
+      setPokemonList((prev) =>
+        isNewQuery ? details : [...prev, ...details]
+      );
+      setOffset((prevOffset) =>
+        isNewQuery ? LIMIT : prevOffset + LIMIT
+      );
 
       if (!response.data.next || details.length < LIMIT) {
-        setHasMore(false); // no more data
+        setHasMore(false);
       }
     } catch (err) {
       console.error("Failed to load Pokémon:", err);
@@ -97,10 +116,11 @@ const PokemonList = ({ selectedType }) => {
         <h1 className="text-2xl font-bold mb-2 capitalize">Pokémon List</h1>
         <button
           onClick={() => {
+            setSearchTerm("");
             setOffset(0);
             setHasMore(true);
             setPokemonList([]);
-            fetchPokemon();
+            fetchPokemon(true);
           }}
           className="px-4 py-2 bg-slate-600 text-2xl text-white rounded-md hover:bg-blue-700 transition duration-200"
         >
@@ -112,8 +132,7 @@ const PokemonList = ({ selectedType }) => {
         <input
           type="text"
           placeholder="Search Pokémon..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => debouncedSearch(e.target.value)}
           className="w-full px-4 py-2 rounded bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none"
         />
       </div>
@@ -218,7 +237,7 @@ const PokemonList = ({ selectedType }) => {
             {hasMore && (
               <div className="flex justify-center mt-6">
                 <button
-                  onClick={fetchPokemon}
+                  onClick={() => fetchPokemon()}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full text-sm font-semibold"
                   disabled={loadingMore}
                 >
@@ -230,7 +249,6 @@ const PokemonList = ({ selectedType }) => {
         )}
       </div>
 
-      {/* Pokemon Detail Modal */}
       {selectedPokemon && (
         <div
           className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center transition-all duration-300"

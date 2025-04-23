@@ -1,4 +1,4 @@
-// src/components/Team.jsx
+
 import { useEffect, useState } from "react";
 import { getTeam, removeFromTeam } from "../services/jsonServer";
 
@@ -46,7 +46,7 @@ const Team = () => {
             </h2>
 
             <div className="mt-2 text-sm text-center">
-              {/* Optional: Display stats or type of Pokémon here */}
+            
             </div>
 
             <button

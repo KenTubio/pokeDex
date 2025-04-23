@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Users, Sword, CheckCircle, Star } from 'lucide-react'; // Optional: customize icons
+import { Sparkles, Users, Sword, CheckCircle, Star } from 'lucide-react'; 
 
 const Instructions = () => {
   return (

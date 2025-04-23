@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useLocation } from "react-router-dom"; 
 import { FaXTwitter } from "react-icons/fa6";
 import { FaPinterest, FaYoutube, FaInstagramSquare } from "react-icons/fa";
 import { CiGlobe } from "react-icons/ci";
@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 const Header = () => {
-    const location = useLocation(); // Get the current location
+    const location = useLocation(); 
     const [stats, setStats] = useState({
         total: 0,
         types: 0,
@@ -27,25 +27,25 @@ const Header = () => {
                     axios.get("https://pokeapi.co/api/v2/pokemon-species?limit=100000&offset=0"),
                 ]);
 
-                // Top 50 Pokémon for base experience calculation
+            
                 const top50Details = await Promise.all(
                     pokemonRes.data.results.slice(0, 50).map(p => axios.get(p.url))
                 );
 
-                // Calculate the average base experience
+               
                 const totalExp = top50Details.reduce((acc, p) => acc + p.data.base_experience, 0);
                 const averageExp = totalExp / top50Details.length;
 
-                // Get species details to count distinct egg groups
+               
                 const speciesDetails = await Promise.all(
                     speciesRes.data.results.slice(0, 50).map(s => axios.get(s.url))
                 );
 
-                // Collect all egg groups (ensure they are unique)
+               
                 const eggGroups = new Set();
                 speciesDetails.forEach(species => {
                     species.data.egg_groups.forEach(group => {
-                        eggGroups.add(group.name); // Add each egg group to the set
+                        eggGroups.add(group.name); 
                     });
                 });
 
@@ -55,7 +55,7 @@ const Header = () => {
                     abilities: abilityRes.data.count,
                     highExpCount: top50Details.filter(p => p.data.base_experience > 200).length,
                     averageExp,
-                    totalEggGroups: eggGroups.size, // The size of the set gives the unique egg group count
+                    totalEggGroups: eggGroups.size, 
                 });
 
             } catch (error) {
@@ -90,13 +90,13 @@ const Header = () => {
             </header>
 
 
-            {/* Header Banner */}
+          
             <div
                 className="w-full h-96 max-lg:h-52 bg-cover bg-center bg-no-repeat rounded-lg mb-4"
                 style={{ backgroundImage: 'url("/images/banner.gif")' }}
             />
 
-            {/* Profile Section */}
+         
             <div className="flex items-start space-x-4 mb-6 relative max-sm:flex-col max-sm:justify-center">
                 <img
                     src="/images/profile.jpg"
@@ -148,7 +148,7 @@ const Header = () => {
 
             </div>
 
-            {/* Dynamic Pokémon Stats */}
+        
             <div className="grid grid-cols-6 max-lg:grid-cols-3 gap-3 bg-[#161616] p-3 rounded-lg mt-13 border border-slate-700">
                 <div className="border border-gray-700 rounded-lg p-3">
                     <p className="text-sm text-gray-400">Total Pokémon</p>
