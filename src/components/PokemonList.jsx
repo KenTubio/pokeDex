@@ -22,7 +22,7 @@ const PokemonList = ({ selectedType }) => {
     fetchTeam();
   }, []);
 
-  // Reset on filter change
+
   useEffect(() => {
     setPokemonList([]);
     setOffset(0);

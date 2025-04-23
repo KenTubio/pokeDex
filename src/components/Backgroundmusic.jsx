@@ -1,41 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useImperativeHandle, useRef, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 
-const BackgroundMusic = () => {
+const BackgroundMusic = forwardRef((_, ref) => {
   const location = useLocation();
   const audioRef = useRef(null);
-  const [currentTrack, setCurrentTrack] = useState("/");
+  const currentPath = location.pathname;
 
   const dashboardMusic = "/audio/pokemon-bg.mp3";
   const battleMusic = "/audio/battle-bg.mp3";
 
-  const VOLUME_LEVELS = {
-    dashboard: 0.5,
-    battle: 1.0,
-  };
+  useImperativeHandle(ref, () => audioRef.current);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const isBattle = location.pathname === "/battle";
-
     audio.loop = true;
 
-    if (isBattle && currentTrack !== "battle") {
-      audio.src = battleMusic;
-      audio.volume = VOLUME_LEVELS.battle;
-      setCurrentTrack("battle");
-      audio.play().catch(console.warn);
-    } else if (!isBattle && currentTrack !== "/") {
-      audio.src = dashboardMusic;
-      audio.volume = VOLUME_LEVELS.dashboard;
-      setCurrentTrack("/");
-      audio.play().catch(console.warn);
+    if (currentPath === "/battle") {
+      if (audio.src !== window.location.origin + battleMusic) {
+        audio.src = battleMusic;
+        audio.volume = 1.0;
+        audio.play().catch(console.warn);
+      }
+    } else {
+      if (audio.src !== window.location.origin + dashboardMusic) {
+        audio.src = dashboardMusic;
+        audio.volume = 0.5;
+        audio.play().catch(console.warn);
+      }
     }
-  }, [location.pathname, currentTrack]);
+  }, [currentPath]);
 
   return <audio ref={audioRef} />;
-};
+});
 
 export default BackgroundMusic;
